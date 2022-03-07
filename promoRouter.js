@@ -29,7 +29,7 @@ dishRouter.route('/')
     res.end('Deleting all the promotions');
 });
 
-dishRouter.route('/:leaderId')
+dishRouter.route('/:promoId')
 .all((req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
