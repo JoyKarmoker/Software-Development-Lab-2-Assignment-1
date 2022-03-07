@@ -12,21 +12,21 @@ dishRouter.route('/')
     next();
 })
 .get((req,res,next) => {
-    res.end('All the employes will be promoted');
+    res.end('All the leaders will be send');
 })
 .post((req, res, next) => {
     res.end('POST method called and will be processed accordingly');
 })
 .put((req, res, next) => {
     res.statusCode = 403;
-    res.end('PUT operation not supported on /promotions');
+    res.end('PUT operation not supported on /leaders');
 })
 .patch((req, res, next) => {
     res.statusCode = 403;
-    res.end('PATCH operation not supported on /promotions');
+    res.end('PATCH operation not supported on /leaders');
 })
 .delete((req, res, next) => {
-    res.end('Deleting all the promotions');
+    res.end('Deleting all the leaders');
 });
 
 dishRouter.route('/:leaderId')
@@ -36,21 +36,21 @@ dishRouter.route('/:leaderId')
     next();
 })
 .get((req,res,next) => {
-    res.end('Will promote the employee with id ' +req.params.promoId);
+    res.end('Will send the leader  with id ' +req.params.leaderId);
 })
 .post((req, res, next) => {
-    res.end('POST operation not supported on /promotions/:' +req.params.promoId);
+    res.end('POST operation not supported on /leaders/:' +req.params.leaderId);
 })
 .put((req, res, next) => {
     res.statusCode = 403;
-    res.end('Will Update the employee with id ' +req.params.promoId);
+    res.end('Will Update the leader with id ' +req.params.leaderId);
 })
 .patch((req, res, next) => {
     res.statusCode = 403;
-    res.end('Will Update the employee with id ' +req.params.promoId);
+    res.end('Will Update the leader with id ' +req.params.leaderId);
 })
 .delete((req, res, next) => {
-    res.end('Deleting the promotion of the employee with id ' +req.params.promoId);
+    res.end('Deleting the leader with id ' +req.params.leaderId);
 });
  
 module.exports = dishRouter;
