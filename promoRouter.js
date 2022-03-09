@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
  
-const dishRouter = express.Router();
+const promoRouter = express.Router();
  
-dishRouter.use(bodyParser.json());
+promoRouter.use(bodyParser.json());
  
-dishRouter.route('/')
+promoRouter.route('/')
 .all((req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
@@ -29,7 +29,7 @@ dishRouter.route('/')
     res.end('Deleting all the promotions');
 });
 
-dishRouter.route('/:promoId')
+promoRouter.route('/:promoId')
 .all((req,res,next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
@@ -53,4 +53,4 @@ dishRouter.route('/:promoId')
     res.end('Deleting the promotion of the employee with id ' +req.params.promoId);
 });
  
-module.exports = dishRouter;
+module.exports = promoRouter;
