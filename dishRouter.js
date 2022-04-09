@@ -1,23 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
- 
-const dishRouter = express.Router();
- 
+ const dishRouter = express.Router();
+ const {protect, adminAccess} = require('./middleware');
 dishRouter.use(bodyParser.json());
  
 dishRouter.route('/')
-.all((req,res,next) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    next();
-})
 .get((req,res,next) => {
     res.end('Will send all the dishes to you!');
 })
-.post((req, res, next) => {
+.post(protect, adminAccess, (req, res, next) => {
     res.end('Will add the dish: ' + req.body.name + ' with details: ' + req.body.description);
 })
-.put((req, res, next) => {
+.put(protect, adminAccess, (req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /dishes');
 })
@@ -25,23 +19,18 @@ dishRouter.route('/')
     res.statusCode = 403;
     res.end('PATCH operation not supported on /dishes');
 })
-.delete((req, res, next) => {
+.delete(protect, adminAccess, (req, res, next) => {
     res.end('Deleting all dishes');
 });
 
 dishRouter.route('/:dishId')
-.all((req,res,next) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    next();
-})
 .get((req,res,next) => {
     res.end('Will send the ' +req.params.dishId+ ' number dish to you!');
 })
-.post((req, res, next) => {
+.post(protect, adminAccess, (req, res, next) => {
     res.end('POST operation not supported on /dishes/:' +req.params.dishId);
 })
-.put((req, res, next) => {
+.put(protect, adminAccess, (req, res, next) => {
     res.statusCode = 403;
     res.end('Will Update the ' +req.params.dishId+ ' number dish');
 })
@@ -49,7 +38,7 @@ dishRouter.route('/:dishId')
     res.statusCode = 403;
     res.end('Will Update the ' +req.params.dishId+ ' number dish');
 })
-.delete((req, res, next) => {
+.delete(protect, adminAccess, (req, res, next) => {
     res.end('Deleting the ' +req.params.dishId+ ' number dish');
 });
  

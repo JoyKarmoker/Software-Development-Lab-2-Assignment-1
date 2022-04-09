@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { protect, adminAccess } = require('./middleware');
 mongoose.connect('mongodb://localhost:27017/assignmentdb');
 const promoRouter = express.Router();
 promoRouter.use(bodyParser.json());
@@ -40,7 +41,7 @@ promoRouter.route('/')
 
     })
 
-    .post((req, res, next) => {
+    .post(protect, adminAccess, (req, res, next) => {
        
         //Correct input format with feautred true
         if (req.body.name && req.body.image && req.body.label && req.body.price && req.body.description && req.body.featured) {
@@ -98,7 +99,7 @@ promoRouter.route('/')
     })
 
 
-    .put((req, res, next) => {
+    .put(protect, adminAccess, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not supported on /promotions');
     })
@@ -107,7 +108,7 @@ promoRouter.route('/')
         res.end('PATCH operation not supported on /promotions');
     })
     
-    .delete((req, res, next) => {
+    .delete(protect, adminAccess, (req, res, next) => {
         Promotion.deleteMany({}, function(err){
             if(!err)
             {
@@ -137,10 +138,10 @@ promoRouter.route('/:promoId')
         });
     })
     
-    .post((req, res, next) => {
+    .post(protect, adminAccess, (req, res, next) => {
         res.end('POST operation not supported on /promotions/:' + req.params.promoId);
     })
-    .put((req, res, next) => {
+    .put(protect, adminAccess, (req, res, next) => {
         res.statusCode = 403;
         res.end('Will Update the employee with id ' + req.params.promoId);
     })
@@ -149,7 +150,7 @@ promoRouter.route('/:promoId')
         res.end('Will Update the employee with id ' + req.params.promoId);
     })
    
-    .delete((req, res, next) => {
+    .delete(protect, adminAccess, (req, res, next) => {
         var id = new mongoose.Types.ObjectId(req.params.promoId);
         Promotion.deleteOne({_id: id}, function(err, deletedPrmotions){
             if(!err)

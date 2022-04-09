@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const leaderRouter = express.Router();
+const {protect, adminAccess} = require('./middleware')
 leaderRouter.use(bodyParser.json());
 leaderRouter.use(bodyParser.json({ type: 'application/*+json' }))
 
@@ -37,7 +38,7 @@ leaderRouter.route('/')
     })
 
 
-    .post((req, res, next) => {
+    .post(protect, adminAccess, (req, res, next) => {
         //Correct input format with feautred true
         if (req.body.name && req.body.image && req.body.designation && req.body.abbr && req.body.description && req.body.featured) {
             const leader = new Leader({
@@ -88,7 +89,7 @@ leaderRouter.route('/')
     })
 
 
-    .put((req, res, next) => {
+    .put(protect, adminAccess, (req, res, next) => {
         res.statusCode = 403;
         res.end('PUT operation not supported on /leaders');
     })
@@ -99,7 +100,7 @@ leaderRouter.route('/')
         res.end('PATCH operation not supported on /leaders');
     })
 
-    .delete((req, res, next) => {
+    .delete(protect, adminAccess, (req, res, next) => {
         Leader.deleteMany({}, function(err){
             if(!err)
             {
@@ -139,10 +140,10 @@ leaderRouter.route('/:leaderId')
         });
     })
 
-    .post((req, res, next) => {
+    .post(protect, adminAccess, (req, res, next) => {
         res.end('POST operation not supported on /leaders/:' + req.params.leaderId);
     })
-    .put((req, res, next) => {
+    .put(protect, adminAccess, (req, res, next) => {
         res.statusCode = 403;
         res.end('Will Update the leader with id ' + req.params.leaderId);
     })
@@ -150,7 +151,7 @@ leaderRouter.route('/:leaderId')
         res.statusCode = 403;
         res.end('Will Update the leader with id ' + req.params.leaderId);
     })
-    .delete((req, res, next) => {
+    .delete(protect, adminAccess, (req, res, next) => {
         var id = new mongoose.Types.ObjectId(req.params.promoId);
         Promotion.deleteOne({_id: id}, function(err, deletedPrmotions){
             if(!err)
